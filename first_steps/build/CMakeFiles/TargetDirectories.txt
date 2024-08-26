@@ -1,0 +1,3 @@
+/home/shoshin/space/own_gl/first_steps/build/CMakeFiles/OWNGL.dir
+/home/shoshin/space/own_gl/first_steps/build/CMakeFiles/edit_cache.dir
+/home/shoshin/space/own_gl/first_steps/build/CMakeFiles/rebuild_cache.dir
