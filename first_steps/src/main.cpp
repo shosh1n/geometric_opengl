@@ -63,7 +63,7 @@ void create_triangle(unsigned int &vbo, unsigned int &vao, unsigned int &ebo) {
   glGenBuffers(1, &ebo);
   glBindVertexArray(vao);
   glBindBuffer(GL_ARRAY_BUFFER, vbo);
-  glBufferData(GL_ARRAY_BUFFER, sizeof(triangle_vertices), triangle_indices, GL_STATIC_DRAW);
+  glBufferData(GL_ARRAY_BUFFER, sizeof(triangle_vertices), triangle_indices, GL_DYNAMIC_DRAW);
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
   glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(triangle_indices), triangle_indices, GL_STATIC_DRAW);
   glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void *)0);
@@ -110,13 +110,13 @@ int main() {
   ImGui::StyleColorsDark();
   // start with opengl
   // setup vertices
-  /* not used atm
+ 
   float vertices[] = {
   -0.5f,  -0.5f, 0.0f,
    0.5f,  -0.5f, 0.0f,
    0.0f,   0.5f, 0.0f
   };
-  */
+
   unsigned int VAO;
   glGenVertexArrays(1, &VAO);
   glBindVertexArray(VAO);
@@ -199,15 +199,18 @@ int main() {
 
     ImGui::Begin("Demo window");
     static float stretch = 0.0;
-    ImGui::SliderFloat("stretch", &stretch, 0, 1);
+    ImGui::SliderFloat("stretch", vertices, -1, 1);
     static float translation[] = {0.0, 0.0};
     ImGui::SliderFloat2("position", translation, -1.0, 1.0);
     static float color[4] = {1.0f, 1.0f, 1.0f, 1.0f};
 
     triangle_shader.setUniform("stretch", stretch);
-    triangle_shader.setUniform("translation", translation[0], translation[1]);
+    triangle_shader.setUniform("translation", translation[0] , translation[1]);
     triangle_shader.setUniform("color", color[0], color[1], color[2]);
     ImGui::End();
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertices), vertices);
+
     ImGui::Render();
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
